@@ -352,6 +352,8 @@ val codeqlCompileJvm = tasks.register<JavaExec>("codeqlCompileJvm") {
     inputs.files(codeqlSourceClasspath).withNormalizer(ClasspathNormalizer::class.java)
     outputs.dir(outDir)
 
+    onlyIf("commonMain Kotlin sources are present") { sources.files.isNotEmpty() }
+
     doFirst {
         outDir.get().asFile.mkdirs()
         args = listOf(
