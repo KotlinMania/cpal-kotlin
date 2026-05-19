@@ -281,6 +281,42 @@ tasks.register("test") {
     dependsOn(defaultTestTasks.mapNotNull { taskName -> tasks.findByName(taskName) })
 }
 
+val jsYarnLockBuildTasks = listOf(
+    "compileKotlinJs",
+    "compileTestKotlinJs",
+    "jsMainClasses",
+    "jsTestClasses",
+    "jsJar",
+    "jsTest",
+)
+
+jsYarnLockBuildTasks.forEach { taskName ->
+    tasks.named(taskName) {
+        dependsOn("kotlinUpgradeYarnLock")
+    }
+}
+
+val wasmYarnLockBuildTasks = listOf(
+    "compileKotlinWasmJs",
+    "compileTestKotlinWasmJs",
+    "wasmJsMainClasses",
+    "wasmJsTestClasses",
+    "wasmJsJar",
+    "wasmJsTest",
+    "compileKotlinWasmWasi",
+    "compileTestKotlinWasmWasi",
+    "wasmWasiMainClasses",
+    "wasmWasiTestClasses",
+    "wasmWasiJar",
+    "wasmWasiTest",
+)
+
+wasmYarnLockBuildTasks.forEach { taskName ->
+    tasks.named(taskName) {
+        dependsOn("kotlinWasmUpgradeYarnLock")
+    }
+}
+
 // The generated Wasm-WASI Node test runner cannot see the filesystem unless
 // the project directory is preopened. Patch the runner before wasmWasiNodeTest.
 val patchWasmWasiNodePreopens = tasks.register("patchWasmWasiNodePreopens") {
