@@ -199,10 +199,18 @@ kotlin {
         binaries.framework { baseName = "Cpal"; xcf.add(this) }
     }
     iosSimulatorArm64 {
-        binaries.framework { baseName = "Cpal"; xcf.add(this) }
+        binaries.framework {
+            baseName = "Cpal"
+            isStatic = true
+            xcf.add(this)
+        }
     }
     iosX64 {
-        binaries.framework { baseName = "Cpal"; xcf.add(this) }
+        binaries.framework {
+            baseName = "Cpal"
+            isStatic = true
+            xcf.add(this)
+        }
     }
 
     tvosArm64 {
