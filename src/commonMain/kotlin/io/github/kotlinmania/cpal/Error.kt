@@ -20,34 +20,45 @@ data object HostUnavailable : RuntimeException("the requested host is unavailabl
  * cross-platform manner, please create an issue or submit a pull request with a patch that adds
  * the necessary error variant to the appropriate error type.
  */
-class BackendSpecificError(val description: String) :
-    RuntimeException("A backend-specific error has occurred: $description") {
+class BackendSpecificError(
+    val description: String,
+) : RuntimeException("A backend-specific error has occurred: $description") {
     override fun toString(): String = message.orEmpty()
 }
 
 private fun backendSpecificMessage(err: BackendSpecificError): String = err.toString()
 
 /** An error that might occur while attempting to enumerate the available devices on a system. */
-sealed class DevicesError(message: String, cause: Throwable? = null) : RuntimeException(message, cause) {
+sealed class DevicesError(
+    message: String,
+    cause: Throwable? = null,
+) : RuntimeException(message, cause) {
     /** See the [BackendSpecificError] docs for more information about this error variant. */
-    data class BackendSpecific(val err: BackendSpecificError) :
-        DevicesError(backendSpecificMessage(err), err)
+    data class BackendSpecific(
+        val err: BackendSpecificError,
+    ) : DevicesError(backendSpecificMessage(err), err)
 
     override fun toString(): String = message.orEmpty()
 }
 
 /** An error that may occur while attempting to retrieve a device name. */
-sealed class DeviceNameError(message: String, cause: Throwable? = null) : RuntimeException(message, cause) {
+sealed class DeviceNameError(
+    message: String,
+    cause: Throwable? = null,
+) : RuntimeException(message, cause) {
     /** See the [BackendSpecificError] docs for more information about this error variant. */
-    data class BackendSpecific(val err: BackendSpecificError) :
-        DeviceNameError(backendSpecificMessage(err), err)
+    data class BackendSpecific(
+        val err: BackendSpecificError,
+    ) : DeviceNameError(backendSpecificMessage(err), err)
 
     override fun toString(): String = message.orEmpty()
 }
 
 /** Error that can happen when enumerating the list of supported formats. */
-sealed class SupportedStreamConfigsError(message: String, cause: Throwable? = null) :
-    RuntimeException(message, cause) {
+sealed class SupportedStreamConfigsError(
+    message: String,
+    cause: Throwable? = null,
+) : RuntimeException(message, cause) {
     /**
      * The device no longer exists. This can happen if the device is disconnected while the program
      * is running.
@@ -62,15 +73,18 @@ sealed class SupportedStreamConfigsError(message: String, cause: Throwable? = nu
     )
 
     /** See the [BackendSpecificError] docs for more information about this error variant. */
-    data class BackendSpecific(val err: BackendSpecificError) :
-        SupportedStreamConfigsError(backendSpecificMessage(err), err)
+    data class BackendSpecific(
+        val err: BackendSpecificError,
+    ) : SupportedStreamConfigsError(backendSpecificMessage(err), err)
 
     override fun toString(): String = message.orEmpty()
 }
 
 /** May occur when attempting to request the default input or output stream format from a [Device]. */
-sealed class DefaultStreamConfigError(message: String, cause: Throwable? = null) :
-    RuntimeException(message, cause) {
+sealed class DefaultStreamConfigError(
+    message: String,
+    cause: Throwable? = null,
+) : RuntimeException(message, cause) {
     /**
      * The device no longer exists. This can happen if the device is disconnected while the program
      * is running.
@@ -85,14 +99,18 @@ sealed class DefaultStreamConfigError(message: String, cause: Throwable? = null)
     )
 
     /** See the [BackendSpecificError] docs for more information about this error variant. */
-    data class BackendSpecific(val err: BackendSpecificError) :
-        DefaultStreamConfigError(backendSpecificMessage(err), err)
+    data class BackendSpecific(
+        val err: BackendSpecificError,
+    ) : DefaultStreamConfigError(backendSpecificMessage(err), err)
 
     override fun toString(): String = message.orEmpty()
 }
 
 /** Error that can happen when creating a [Stream]. */
-sealed class BuildStreamError(message: String, cause: Throwable? = null) : RuntimeException(message, cause) {
+sealed class BuildStreamError(
+    message: String,
+    cause: Throwable? = null,
+) : RuntimeException(message, cause) {
     /**
      * The device no longer exists. This can happen if the device is disconnected while the program
      * is running.
@@ -120,8 +138,9 @@ sealed class BuildStreamError(message: String, cause: Throwable? = null) : Runti
     data object StreamIdOverflow : BuildStreamError("Adding a new stream ID would cause an overflow")
 
     /** See the [BackendSpecificError] docs for more information about this error variant. */
-    data class BackendSpecific(val err: BackendSpecificError) :
-        BuildStreamError(backendSpecificMessage(err), err)
+    data class BackendSpecific(
+        val err: BackendSpecificError,
+    ) : BuildStreamError(backendSpecificMessage(err), err)
 
     override fun toString(): String = message.orEmpty()
 }
@@ -133,14 +152,18 @@ sealed class BuildStreamError(message: String, cause: Throwable? = null) : Runti
  * is because both the ALSA and WASAPI backends only enqueue these commands and do not process them
  * immediately.
  */
-sealed class PlayStreamError(message: String, cause: Throwable? = null) : RuntimeException(message, cause) {
+sealed class PlayStreamError(
+    message: String,
+    cause: Throwable? = null,
+) : RuntimeException(message, cause) {
     /** The device associated with the stream is no longer available. */
     data object DeviceNotAvailable :
         PlayStreamError("the device associated with the stream is no longer available")
 
     /** See the [BackendSpecificError] docs for more information about this error variant. */
-    data class BackendSpecific(val err: BackendSpecificError) :
-        PlayStreamError(backendSpecificMessage(err), err)
+    data class BackendSpecific(
+        val err: BackendSpecificError,
+    ) : PlayStreamError(backendSpecificMessage(err), err)
 
     override fun toString(): String = message.orEmpty()
 }
@@ -152,20 +175,27 @@ sealed class PlayStreamError(message: String, cause: Throwable? = null) : Runtim
  * is because both the ALSA and WASAPI backends only enqueue these commands and do not process them
  * immediately.
  */
-sealed class PauseStreamError(message: String, cause: Throwable? = null) : RuntimeException(message, cause) {
+sealed class PauseStreamError(
+    message: String,
+    cause: Throwable? = null,
+) : RuntimeException(message, cause) {
     /** The device associated with the stream is no longer available. */
     data object DeviceNotAvailable :
         PauseStreamError("the device associated with the stream is no longer available")
 
     /** See the [BackendSpecificError] docs for more information about this error variant. */
-    data class BackendSpecific(val err: BackendSpecificError) :
-        PauseStreamError(backendSpecificMessage(err), err)
+    data class BackendSpecific(
+        val err: BackendSpecificError,
+    ) : PauseStreamError(backendSpecificMessage(err), err)
 
     override fun toString(): String = message.orEmpty()
 }
 
 /** Errors that might occur while a stream is running. */
-sealed class StreamError(message: String, cause: Throwable? = null) : RuntimeException(message, cause) {
+sealed class StreamError(
+    message: String,
+    cause: Throwable? = null,
+) : RuntimeException(message, cause) {
     /**
      * The device no longer exists. This can happen if the device is disconnected while the program
      * is running.
@@ -175,8 +205,9 @@ sealed class StreamError(message: String, cause: Throwable? = null) : RuntimeExc
     )
 
     /** See the [BackendSpecificError] docs for more information about this error variant. */
-    data class BackendSpecific(val err: BackendSpecificError) :
-        StreamError(backendSpecificMessage(err), err)
+    data class BackendSpecific(
+        val err: BackendSpecificError,
+    ) : StreamError(backendSpecificMessage(err), err)
 
     override fun toString(): String = message.orEmpty()
 }

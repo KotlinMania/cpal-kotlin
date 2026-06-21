@@ -15,7 +15,9 @@ typealias OutputDevices<D> = Sequence<D>
 typealias ChannelCount = UShort
 
 /** The number of samples processed per second for a single channel of audio. */
-data class SampleRate(val value: UInt) : Comparable<SampleRate> {
+data class SampleRate(
+    val value: UInt,
+) : Comparable<SampleRate> {
     operator fun times(rhs: UInt): SampleRate = SampleRate(value * rhs)
 
     operator fun div(rhs: UInt): SampleRate = SampleRate(value / rhs)
@@ -38,7 +40,9 @@ sealed class BufferSize {
      * Used when low latency is desired, in accordance with the [SupportedBufferSize] range
      * produced by the [SupportedStreamConfig] API.
      */
-    data class Fixed(val frameCount: FrameCount) : BufferSize()
+    data class Fixed(
+        val frameCount: FrameCount,
+    ) : BufferSize()
 }
 
 /**
@@ -54,7 +58,10 @@ data class StreamConfig(
 
 /** Describes the minimum and maximum supported buffer size for the device. */
 sealed class SupportedBufferSize {
-    data class Range(val min: FrameCount, val max: FrameCount) : SupportedBufferSize()
+    data class Range(
+        val min: FrameCount,
+        val max: FrameCount,
+    ) : SupportedBufferSize()
 
     /** In the case that the platform provides no way of getting the default buffersize before starting a stream. */
     data object Unknown : SupportedBufferSize()
@@ -246,22 +253,19 @@ class Data internal constructor(
                 return previous
             }
 
-            override fun add(index: Int, element: T) {
-                throw UnsupportedOperationException("audio callback buffers have a fixed length")
-            }
+            override fun add(index: Int, element: T): Unit = throw UnsupportedOperationException("audio callback buffers have a fixed length")
 
-            override fun removeAt(index: Int): T {
-                throw UnsupportedOperationException("audio callback buffers have a fixed length")
-            }
+            override fun removeAt(index: Int): T = throw UnsupportedOperationException("audio callback buffers have a fixed length")
         }
     }
 }
 
-private fun compareBooleans(left: Boolean, right: Boolean): Int = when {
-    left == right -> 0
-    left -> 1
-    else -> -1
-}
+private fun compareBooleans(left: Boolean, right: Boolean): Int =
+    when {
+        left == right -> 0
+        left -> 1
+        else -> -1
+    }
 
 private fun Any.writeSampleBytes(format: SampleFormat, out: ByteArray, offset: Int): Int =
     when (format) {
@@ -399,13 +403,17 @@ data class OutputStreamTimestamp(
 )
 
 /** Information relevant to a single call to the user's input stream data callback. */
-data class InputCallbackInfo(private val timestamp: InputStreamTimestamp) {
+data class InputCallbackInfo(
+    private val timestamp: InputStreamTimestamp,
+) {
     /** The timestamp associated with the call to an input stream's data callback. */
     fun timestamp(): InputStreamTimestamp = timestamp
 }
 
 /** Information relevant to a single call to the user's output stream data callback. */
-data class OutputCallbackInfo(private val timestamp: OutputStreamTimestamp) {
+data class OutputCallbackInfo(
+    private val timestamp: OutputStreamTimestamp,
+) {
     /** The timestamp associated with the call to an output stream's data callback. */
     fun timestamp(): OutputStreamTimestamp = timestamp
 }

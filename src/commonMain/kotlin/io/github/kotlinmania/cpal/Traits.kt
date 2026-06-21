@@ -38,7 +38,11 @@ interface HostTrait<D : DeviceTrait<*>> {
     fun inputDevices(): Result<InputDevices<D>> =
         devices().mapCatching { devices ->
             devices.filter { device ->
-                device.supportedInputConfigs().getOrNull()?.iterator()?.hasNext() ?: false
+                device
+                    .supportedInputConfigs()
+                    .getOrNull()
+                    ?.iterator()
+                    ?.hasNext() ?: false
             }
         }
 
@@ -51,7 +55,11 @@ interface HostTrait<D : DeviceTrait<*>> {
     fun outputDevices(): Result<OutputDevices<D>> =
         devices().mapCatching { devices ->
             devices.filter { device ->
-                device.supportedOutputConfigs().getOrNull()?.iterator()?.hasNext() ?: false
+                device
+                    .supportedOutputConfigs()
+                    .getOrNull()
+                    ?.iterator()
+                    ?.hasNext() ?: false
             }
         }
 }

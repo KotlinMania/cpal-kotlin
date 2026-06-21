@@ -9,43 +9,44 @@ import kotlin.time.Duration.Companion.seconds
 class LibTest {
     @Test
     fun testCmpDefaultHeuristics() {
-        val formats = mutableListOf(
-            SupportedStreamConfigRange(
-                bufferSize = SupportedBufferSize.Range(min = 256u, max = 512u),
-                channels = 2u,
-                minSampleRate = SampleRate(1u),
-                maxSampleRate = SampleRate(96_000u),
-                sampleFormat = SampleFormat.F32,
-            ),
-            SupportedStreamConfigRange(
-                bufferSize = SupportedBufferSize.Range(min = 256u, max = 512u),
-                channels = 1u,
-                minSampleRate = SampleRate(1u),
-                maxSampleRate = SampleRate(96_000u),
-                sampleFormat = SampleFormat.F32,
-            ),
-            SupportedStreamConfigRange(
-                bufferSize = SupportedBufferSize.Range(min = 256u, max = 512u),
-                channels = 2u,
-                minSampleRate = SampleRate(1u),
-                maxSampleRate = SampleRate(96_000u),
-                sampleFormat = SampleFormat.I16,
-            ),
-            SupportedStreamConfigRange(
-                bufferSize = SupportedBufferSize.Range(min = 256u, max = 512u),
-                channels = 2u,
-                minSampleRate = SampleRate(1u),
-                maxSampleRate = SampleRate(96_000u),
-                sampleFormat = SampleFormat.U16,
-            ),
-            SupportedStreamConfigRange(
-                bufferSize = SupportedBufferSize.Range(min = 256u, max = 512u),
-                channels = 2u,
-                minSampleRate = SampleRate(1u),
-                maxSampleRate = SampleRate(22_050u),
-                sampleFormat = SampleFormat.F32,
-            ),
-        )
+        val formats =
+            mutableListOf(
+                SupportedStreamConfigRange(
+                    bufferSize = SupportedBufferSize.Range(min = 256u, max = 512u),
+                    channels = 2u,
+                    minSampleRate = SampleRate(1u),
+                    maxSampleRate = SampleRate(96_000u),
+                    sampleFormat = SampleFormat.F32,
+                ),
+                SupportedStreamConfigRange(
+                    bufferSize = SupportedBufferSize.Range(min = 256u, max = 512u),
+                    channels = 1u,
+                    minSampleRate = SampleRate(1u),
+                    maxSampleRate = SampleRate(96_000u),
+                    sampleFormat = SampleFormat.F32,
+                ),
+                SupportedStreamConfigRange(
+                    bufferSize = SupportedBufferSize.Range(min = 256u, max = 512u),
+                    channels = 2u,
+                    minSampleRate = SampleRate(1u),
+                    maxSampleRate = SampleRate(96_000u),
+                    sampleFormat = SampleFormat.I16,
+                ),
+                SupportedStreamConfigRange(
+                    bufferSize = SupportedBufferSize.Range(min = 256u, max = 512u),
+                    channels = 2u,
+                    minSampleRate = SampleRate(1u),
+                    maxSampleRate = SampleRate(96_000u),
+                    sampleFormat = SampleFormat.U16,
+                ),
+                SupportedStreamConfigRange(
+                    bufferSize = SupportedBufferSize.Range(min = 256u, max = 512u),
+                    channels = 2u,
+                    minSampleRate = SampleRate(1u),
+                    maxSampleRate = SampleRate(22_050u),
+                    sampleFormat = SampleFormat.F32,
+                ),
+            )
 
         formats.sortWith { a, b -> a.cmpDefaultHeuristics(b) }
 
