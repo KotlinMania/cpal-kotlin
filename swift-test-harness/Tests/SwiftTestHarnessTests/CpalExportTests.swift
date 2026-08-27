@@ -1,4 +1,4 @@
-import XCTest
+import Testing
 import Cpal
 
 // Smoke test for the Kotlin → Swift Export → SPM → swift test pipeline.
@@ -28,8 +28,10 @@ import Cpal
 // Add more meaningful per-API tests below as the Swift Export surface
 // grows. For now the import + a single passing assertion is the
 // canary that the pipeline is green for this repo.
-final class CpalExportTests: XCTestCase {
-    func testSwiftModuleLoads() throws {
-        XCTAssertTrue(true, "Cpal swift module imported cleanly")
+@Suite("CpalExportTests")
+struct CpalExportTests {
+    @Test("testSwiftModuleLoads")
+    func testSwiftModuleLoads() {
+        #expect(true, "Cpal swift module imported cleanly")
     }
 }

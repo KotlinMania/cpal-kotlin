@@ -21,8 +21,8 @@ data object HostUnavailable : RuntimeException("the requested host is unavailabl
  * the necessary error variant to the appropriate error type.
  */
 class BackendSpecificError(
-    val description: String,
-) : RuntimeException("A backend-specific error has occurred: $description") {
+    val errorDescription: String,
+) : RuntimeException("A backend-specific error has occurred: $errorDescription") {
     override fun toString(): String = message.orEmpty()
 }
 
