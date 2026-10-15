@@ -4,16 +4,16 @@ import PackageDescription
 let package = Package(
     name: "SwiftTestHarness",
     platforms: [
-        .macOS(.v14)
+        .macOS(.v15),
     ],
     dependencies: [
-        .package(name: "Cpal", path: "../build/SPMPackage/macosArm64/Debug")
+        .package(name: "Cpal", path: "../build/SPMPackage/macosArm64/Debug"),
     ],
     targets: [
         .testTarget(
             name: "SwiftTestHarnessTests",
             dependencies: [
-                .product(name: "CpalLibrary", package: "Cpal")
+                .product(name: "CpalLibrary", package: "Cpal"),
             ],
             swiftSettings: [
                 .unsafeFlags([
